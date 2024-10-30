@@ -1,0 +1,152 @@
+---
+title: "NY NOAA Weather Data Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+runtime: shiny
+---
+
+
+```{r}
+library(flexdashboard)
+library(plotly)
+library(p8105.datasets)
+library(tidyverse)
+library(lubridate)
+
+# Load the dataset
+data("ny_noaa")
+
+# Clean and transform the data
+ny_noaa_clean <- ny_noaa %>%
+  # Convert specified columns to character
+  mutate(across(c(prcp, snow, snwd, tmax, tmin), as.character)) %>%
+  # Replace "M" and "T" with NA
+  mutate(across(c(prcp, snow, snwd, tmax, tmin), ~ na_if(., "M"))) %>%
+  mutate(across(c(prcp, snow, snwd, tmax, tmin), ~ na_if(., "T"))) %>%
+  # Convert to numeric
+  mutate(across(c(prcp, snow, snwd, tmax, tmin), as.numeric)) %>%
+  # Convert units
+  mutate(
+    prcp = prcp / 10,  # Convert to mm
+    snow = snow / 10,  # Convert to mm
+    snwd = snwd / 10,  # Convert to mm
+    tmax = tmax / 10,  # Convert to °C
+    tmin = tmin / 10   # Convert to °C
+  ) %>%
+  # Remove rows with NA in key variables
+  filter(!is.na(prcp), !is.na(snow), !is.na(snwd), !is.na(tmax), !is.na(tmin)) %>%
+  # Group and filter stations with more than 10,000 observations
+  group_by(id) %>%
+  filter(n() > 10000) %>%
+  ungroup() %>%
+  # Extract date components
+  mutate(
+    date = as.Date(date),
+    year = year(date),
+    month = month(date, label = TRUE)
+  )
+# Summarize data by station, year, and month
+weather_summary <- ny_noaa_clean %>%
+  group_by(id, year, month) %>%
+  summarise(
+    mean_prcp = mean(prcp, na.rm = TRUE),
+    mean_snow = mean(snow, na.rm = TRUE),
+    mean_snwd = mean(snwd, na.rm = TRUE),
+    mean_tmax = mean(tmax, na.rm = TRUE),
+    mean_tmin = mean(tmin, na.rm = TRUE),
+    .groups = 'drop'
+  )
+
+```
+Column {data-width=650}
+-----------------------------------------------------------------------
+### Chart 1
+```{r}
+# Scatter Plot
+plot_temp <- weather_summary %>%
+  plot_ly(
+    x = ~mean_tmin,
+    y = ~mean_tmax,
+    color = ~mean_prcp,
+    type = "scatter",
+    mode = "markers",
+    colorscale = "Viridis",  # Updated line
+    text = ~paste("Precipitation:", round(mean_prcp, 2), "mm"),
+    marker = list(opacity = 0.6)
+  ) %>%
+  layout(
+    title = "Mean TMAX vs. Mean TMIN",
+    xaxis = list(title = "Mean TMIN (°C)"),
+    yaxis = list(title = "Mean TMAX (°C)")
+  )
+
+plot_temp
+
+
+plot_temp
+
+```
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart 2
+```{r}
+# Bar Plot
+top_stations_snowdepth <- weather_summary %>%
+  group_by(id) %>%
+  summarise(total_snwd = sum(mean_snwd, na.rm = TRUE)) %>%
+  arrange(desc(total_snwd)) %>%
+  slice_head(n = 10)
+
+plot_snowdepth <- top_stations_snowdepth %>%
+  mutate(id = factor(id, levels = top_stations_snowdepth$id)) %>%
+  plot_ly(
+    x = ~id,
+    y = ~total_snwd,
+    type = "bar",
+    marker = list(color = "rgba(58, 71, 80, 0.7)")
+  ) %>%
+  layout(
+    title = "Total Snow Depth by Station (Top 10)",
+    xaxis = list(title = "Station ID", tickangle = -45),
+    yaxis = list(title = "Total Snow Depth (mm)")
+  )
+
+plot_snowdepth
+
+```
+### Chart 3
+```{r}
+# Box Plot
+top_stations_snowfall <- weather_summary %>%
+  group_by(id) %>%
+  summarise(avg_snowfall = mean(mean_snow, na.rm = TRUE)) %>%
+  arrange(desc(avg_snowfall)) %>%
+  slice_head(n = 10)
+
+snowfall_top_stations <- weather_summary %>%
+  filter(id %in% top_stations_snowfall$id)
+
+plot_snowfall <- snowfall_top_stations %>%
+  mutate(id = factor(id, levels = top_stations_snowfall$id)) %>%
+  plot_ly(
+    x = ~id,
+    y = ~mean_snow,
+    type = "box",
+    color = ~id,
+    colorscale = "Viridis",  # Updated line
+    showlegend = FALSE
+  ) %>%
+  layout(
+    title = "Average Snowfall by Station (Top 10)",
+    xaxis = list(title = "Station ID", tickangle = -45),
+    yaxis = list(title = "Average Snowfall (mm)")
+  )
+
+plot_snowfall
+
+```
+
+
