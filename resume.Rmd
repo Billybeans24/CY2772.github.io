@@ -5,3 +5,44 @@ output:
     toc: true
     toc_float: true
 ---
+
+# This page has information about me
+
+## Education
+
+- **Degree**
+  - Columbia University, Mailman School of Public Health,  [August, 2024- Present]
+    - MS in Biostatistics
+    - Relevant Coursework: Probability, Data Science I, Biostatistic Methods
+  - University of Wisconsin–Madison,  [January, 2021- May, 2023]
+    - Bachelor of Science in Applied Mathematics
+    - Relevant Coursework: Applied Regression Analysis, Statistical Experimental Design, Linear Algebra
+  
+  
+
+## Research Experience
+
+- **Research on the Factors Influencing Anxiety Disorders Behind the GAD-7 Questionnaire **  
+[September, 2023- October, 2023]
+  - Utilized Python for data cleaning and preprocessing to filter out relevant and meaningful data according to project requirements.
+  - Employed statistical analysis tools and methods to delve into latent patterns and correlations within the data, identifying key factors that may influence the severity of anxiety disorders.
+  - Utilized Python libraries such as Pandas and NumPy for data analysis, statistical analysis, and model development.
+  - Prepared a report that includes visualizations and organized data.
+- **Study on the Influence of People's Happiness Index after COVID-19 **  [October-December, 2022]
+  - Cleaned and pre-processed people's happiness index data after COVID-19 using R language
+  - Using the plotting functions and statistical methods in R, explored the relationship between the variables and created scatterplots, boxplots, and correlation matrices, etc.
+  - Using the statistical functions in R, calculated the correlation coefficients between variables and identified the factors that were highly correlated with the happiness index.
+  - Using the linear regression functions in R, conducted a multiple regression analysis 
+  - Built a model and analyzed the impact of each factor on the happiness index. 
+
+  
+## Internship Experience
+- **Shenyin &Wanguo Futures**                               [September, 2020- December, 2020]
+  - Utilized the Wind financial database tool to collect extensive data, specifically focusing on filtering and consolidating information regarding listed companies' rights issues, convertible bonds, and equity offerings.
+  - Prepared analysis reports on the feasibility of listed companies' financing, with a primary focus on conducting comprehensive comparisons and valuation assessments.
+
+
+## Skills
+
+- **Computer**: Proficient in Word, Excel, PowerPoint, Python, R 
+- **Language**: Chinese (native speaker), English (nearly native speaker)
