@@ -17,3 +17,4 @@ Feel free to navigate through the site to learn more about me.
 ## Link to page within the site
 
 [About me](resume.html)
+[Dashboard](Dashboard.html)

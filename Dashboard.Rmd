@@ -4,7 +4,6 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
-runtime: shiny
 ---
 
 
@@ -84,9 +83,6 @@ plot_temp <- weather_summary %>%
 
 plot_temp
 
-
-plot_temp
-
 ```
 Column {data-width=350}
 -----------------------------------------------------------------------
@@ -117,6 +113,9 @@ plot_snowdepth <- top_stations_snowdepth %>%
 plot_snowdepth
 
 ```
+Column {data-width=650}
+-----------------------------------------------------------------------
+
 ### Chart 3
 ```{r}
 # Box Plot
