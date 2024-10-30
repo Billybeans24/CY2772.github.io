@@ -1,0 +1,15 @@
+---
+title: "My awesome website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# This is Billy's website
+Hello! I'm **Chenhui Yan**, a first-year MS student in Biostatistics at Columbia University. Welcome to my personal website where I share my professional journey and projects.
+
+
+![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+
+Feel free to navigate through the site to learn more about me.
