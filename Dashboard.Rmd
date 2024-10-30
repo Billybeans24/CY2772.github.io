@@ -6,8 +6,7 @@ output:
     vertical_layout: fill
 ---
 
-
-```{r}
+```{r setup, include=FALSE}
 library(flexdashboard)
 library(plotly)
 library(p8105.datasets)
@@ -57,11 +56,13 @@ weather_summary <- ny_noaa_clean %>%
     mean_tmin = mean(tmin, na.rm = TRUE),
     .groups = 'drop'
   )
-
 ```
+
 Column {data-width=650}
 -----------------------------------------------------------------------
-### Chart 1
+
+### Chart A
+
 ```{r}
 # Scatter Plot
 plot_temp <- weather_summary %>%
@@ -82,14 +83,14 @@ plot_temp <- weather_summary %>%
   )
 
 plot_temp
-
 ```
+
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart 2
+### Chart B
+
 ```{r}
-# Bar Plot
 top_stations_snowdepth <- weather_summary %>%
   group_by(id) %>%
   summarise(total_snwd = sum(mean_snwd, na.rm = TRUE)) %>%
@@ -113,10 +114,9 @@ plot_snowdepth <- top_stations_snowdepth %>%
 plot_snowdepth
 
 ```
-Column {data-width=650}
------------------------------------------------------------------------
 
-### Chart 3
+### Chart C
+
 ```{r}
 # Box Plot
 top_stations_snowfall <- weather_summary %>%
@@ -147,5 +147,4 @@ plot_snowfall <- snowfall_top_stations %>%
 plot_snowfall
 
 ```
-
 
